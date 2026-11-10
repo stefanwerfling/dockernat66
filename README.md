@@ -38,7 +38,7 @@ In both modes docker-nat66:
 
 ```sh
 cp .env.example .env      # set DOCKER_NAT66_WAN (e.g. eth1) and the mode
-docker compose up -d --build
+docker compose up -d        # pulls DOCKER_NAT66_IMAGE, or builds it locally if missing
 docker logs -f docker-nat66
 ```
 
@@ -55,6 +55,7 @@ Required mounts and rights (already in `docker-compose.yml`): `network_mode: hos
 
 | Variable | Meaning | Default |
 |---|---|---|
+| `DOCKER_NAT66_IMAGE` / `DOCKER_NAT66_TAG` | image to run (e.g. from your own registry) | `docker-nat66` / `latest` |
 | `DOCKER_NAT66_MODE` | `docker` or `nat66` | `docker` |
 | `DOCKER_NAT66_WAN` | interface with the public IPv6; empty = auto (IPv6 default route with a global address) | auto |
 | `DOCKER_NAT66_FORWARDS` | nat66 only: `proto/port[-end]=container[:port]` or `=[ipv6][:port]`, separated by spaces or commas | – |

@@ -1,7 +1,8 @@
 services:
   docker-nat66:
     build: .
-    image: docker-nat66:latest
+    pull_policy: missing
+    image: ${DOCKER_NAT66_IMAGE:-docker-nat66}:${DOCKER_NAT66_TAG:-latest}
     container_name: docker-nat66
     restart: unless-stopped
     # Works in the host's (LXC's) network namespace and mount namespace:
