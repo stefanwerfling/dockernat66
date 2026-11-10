@@ -1,0 +1,25 @@
+services:
+  docker-nat66:
+    build: .
+    image: docker-nat66:latest
+    container_name: docker-nat66
+    restart: unless-stopped
+    # Works in the host's (LXC's) network namespace and mount namespace:
+    #  - network_mode host: sysctls + nftables of the host
+    #  - pid host + privileged: write /proc/sys, restart Docker once on the host
+    network_mode: host
+    pid: host
+    privileged: true
+    read_only: true
+    environment:
+      DOCKER_NAT66_MODE: ${DOCKER_NAT66_MODE:-docker}
+      DOCKER_NAT66_WAN: ${DOCKER_NAT66_WAN:-}
+      DOCKER_NAT66_FORWARDS: ${DOCKER_NAT66_FORWARDS:-}
+      DOCKER_NAT66_SETUP_DOCKER: ${DOCKER_NAT66_SETUP_DOCKER:-true}
+      DOCKER_NAT66_SYSCTL: ${DOCKER_NAT66_SYSCTL:-true}
+      DOCKER_NAT66_INTERVAL: ${DOCKER_NAT66_INTERVAL:-10}
+      RUST_LOG: ${RUST_LOG:-info}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/docker:/host/etc/docker
+      - /etc/sysctl.d:/host/etc/sysctl.d

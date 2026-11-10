@@ -1,0 +1,8 @@
+# A normal compose stack — nothing IPv6-specific needed.
+# With docker-nat66 running, its network automatically gets a ULA /64 and the
+# containers can reach the internet over IPv6.
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"   # docker mode: also published on the host's public IPv6
